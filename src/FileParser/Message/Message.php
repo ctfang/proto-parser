@@ -12,6 +12,7 @@ use ProtoParser\StringHelp;
 class Message
 {
     protected $values = [];
+    protected $doc = '';
     protected $option = [];
 
     public function __construct(array $source)
@@ -54,9 +55,11 @@ class Message
                     if (isset($str[0]) && $str[0] == '/') {
                         // 注释
                         $doc = $str;
-                    } else if (!in_array($str, ProtoToArray::Separator)){
-                        $this->values[] = new Type($array, $offset, $doc);
-                        $doc            = '';
+                    } else {
+                        if (!in_array($str, ProtoToArray::Separator)) {
+                            $this->values[] = new Type($array, $offset, $doc);
+                            $doc            = '';
+                        }
                     }
                     break;
             }
@@ -151,5 +154,23 @@ class Message
     public function setOption(array $option): void
     {
         $this->option = $option;
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function getDoc()
+    {
+        return $this->doc;
+    }
+
+    /**
+     * @param  mixed|string  $doc
+     * @return Message
+     */
+    public function setDoc($doc)
+    {
+        $this->doc = $doc;
+        return $this;
     }
 }

@@ -12,6 +12,11 @@ service Home {
   option (http.Route) = "test";
 
   // 获取首页信息
+  // 更加复杂的描述内容,123432
+  // 更加复杂的描述内容,123432fdsafd
+  // 更加复杂的描述内容,fdsaf
+  // 更加复杂的描述内容,1234fd32
+  // f
   rpc Index(HomeRequest)returns(HomeResponse){
     option (http.Get) = "/";
   }
@@ -36,6 +41,8 @@ service Home {
 message HomeRequest {
   // 用户id
   int32 user_id = 3;
+  bool boolean = 4;
+  bytes str = 5;
 }
 
 message HomeResponse {

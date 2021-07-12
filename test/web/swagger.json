@@ -32,8 +32,7 @@
                     "test"
                 ],
                 "summary": " 获取首页信息",
-                "description": " 获取首页信息",
-                "operationId": null,
+                "description": " 获取首页信息\n\n 更加复杂的描述内容,123432\n\n 更加复杂的描述内容,123432fdsafd\n\n 更加复杂的描述内容,fdsaf\n\n 更加复杂的描述内容,1234fd32\n\n f",
                 "consumes": [
                     "application/json",
                     "multipart/form-data",
@@ -47,17 +46,32 @@
                 "parameters": [
                     {
                         "name": "user_id",
-                        "in": "path",
+                        "in": "query",
                         "description": " 用户id",
                         "required": false,
                         "type": "integer",
-                        "format": "int32",
-                        "schema": null
+                        "format": "int32"
+                    },
+                    {
+                        "name": "boolean",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "boolean",
+                        "format": "bool"
+                    },
+                    {
+                        "name": "str",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "string",
+                        "format": "bytes"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": null,
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/HomeResponse"
                         }
@@ -73,7 +87,6 @@
                 ],
                 "summary": " 获取首页信息",
                 "description": " 获取首页信息",
-                "operationId": null,
                 "consumes": [
                     "application/json",
                     "multipart/form-data",
@@ -86,18 +99,18 @@
                 ],
                 "parameters": [
                     {
-                        "name": "user_id",
+                        "name": "HomeRequest",
                         "in": "body",
-                        "description": " 用户id",
+                        "description": "",
                         "required": false,
-                        "type": "integer",
-                        "format": "int32",
-                        "schema": null
+                        "schema": {
+                            "$ref": "#/definitions/HomeRequest"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": null,
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/HomeResponse"
                         }
@@ -113,7 +126,6 @@
                 ],
                 "summary": " 忽略浏览器的空请求",
                 "description": " 忽略浏览器的空请求",
-                "operationId": null,
                 "consumes": [
                     "application/json",
                     "multipart/form-data",
@@ -127,17 +139,32 @@
                 "parameters": [
                     {
                         "name": "user_id",
-                        "in": "path",
+                        "in": "query",
                         "description": " 用户id",
                         "required": false,
                         "type": "integer",
-                        "format": "int32",
-                        "schema": null
+                        "format": "int32"
+                    },
+                    {
+                        "name": "boolean",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "boolean",
+                        "format": "bool"
+                    },
+                    {
+                        "name": "str",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "string",
+                        "format": "bytes"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": null,
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/Null"
                         }
@@ -152,8 +179,7 @@
                     "test"
                 ],
                 "summary": " Oss授权",
-                "description": " Oss授权// 发动机撒浪费；觉得你撒；附近的撒浪费几点上课啦；附近收到啦；",
-                "operationId": null,
+                "description": " Oss授权\n\n 发动机撒浪费；觉得你撒；附近的撒浪费几点上课啦；附近收到啦；",
                 "consumes": [
                     "application/json",
                     "multipart/form-data",
@@ -167,17 +193,16 @@
                 "parameters": [
                     {
                         "name": "token",
-                        "in": "path",
+                        "in": "query",
                         "description": "",
                         "required": false,
                         "type": "string",
-                        "format": "string",
-                        "schema": null
+                        "format": "string"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": null,
+                        "description": "",
                         "schema": {
                             "$ref": "#/definitions/OssResponse"
                         }
@@ -197,6 +222,16 @@
                     "type": "integer",
                     "format": "int32",
                     "description": " 用户id"
+                },
+                "boolean": {
+                    "type": "boolean",
+                    "format": "bool",
+                    "description": ""
+                },
+                "str": {
+                    "type": "string",
+                    "format": "bytes",
+                    "description": ""
                 }
             },
             "items": [],

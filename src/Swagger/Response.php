@@ -7,7 +7,7 @@ namespace ProtoParser\Swagger;
 class Response
 {
     protected $code = 200;
-    protected $description;
+    protected $description = '响应';
 
     /**
      * "schema": {
@@ -67,9 +67,15 @@ class Response
 
     public function toArray()
     {
-        return [
+        $got = [
             "description" => $this->description,
             "schema"      => $this->schema,
         ];
+        foreach ($got as $i => $value) {
+            if ($value === null) {
+                unset($got[$i]);
+            }
+        }
+        return $got;
     }
 }

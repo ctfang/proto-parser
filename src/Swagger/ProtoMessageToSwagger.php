@@ -14,6 +14,7 @@ class ProtoMessageToSwagger
         $response->setSchema([
             "\$ref" => "#/definitions/{$message->getName()}"
         ]);
+        $response->setDescription($message->getDoc());
         return $response;
     }
 
@@ -24,13 +25,8 @@ class ProtoMessageToSwagger
         $pars = [];
         foreach ($message->getValues() as $type) {
             if ($type->getBType() == $type::Base) {
-                // proto自带类型
-                $typeIn = 'integer';
-                if (in_array($type->getType(), ['string'])) {
-                    $typeIn = 'string';
-                }
                 $pars[$type->getName()] = [
-                    "type"        => $typeIn,
+                    "type"        => self::toSwaggerType($type->getType()),
                     "format"      => $type->getType(),
                     "description" => $type->getDoc(),
                 ];
@@ -44,36 +40,58 @@ class ProtoMessageToSwagger
         return $definition;
     }
 
-    public static function toParameter(Message $message, string $method = 'get'): Parameter
+    public static function toParameter(Message $message, string $method = 'get')
     {
-        $parameter = new Parameter();
-        foreach ($message->getValues() as $type) {
-            if ($type->getBType() == $type::Base) {
-                // proto自带类型
-                $typeIn = 'integer';
-                if (in_array($type->getType(), ['string'])) {
-                    $typeIn = 'string';
-                }
-                $parameter->setName($type->getName());
-                $parameter->setDescription($type->getDoc());
-                $parameter->setFormat($type->getType());
-                $parameter->setType($typeIn);
-            } elseif ($type->getBType() == $type::bTypeObject) {
-                // 其他对象引用
-                $parameter->setName($type->getName());
-                $parameter->setDescription($type->getDoc());
-                $parameter->setSchema([
-                    "\$ref" => "#/definitions/{$type->getType()}"
-                ]);
-            }
-        }
-
         if ($method == 'get') {
-            $parameter->setIn("path");
+            $got = [];
+            // 写到url上
+            foreach ($message->getValues() as $type) {
+                $parameter = new Parameter();
+                // 其他对象引用
+                $parameter->setName($message->getName());
+                $parameter->setDescription($message->getDoc());
+                if ($type->getBType() == $type::Base) {
+                    // proto自带类型
+                    $parameter->setName($type->getName());
+                    $parameter->setDescription($type->getDoc());
+                    $parameter->setFormat($type->getType());
+                    $parameter->setType(self::toSwaggerType($type->getType()));
+                } elseif ($type->getBType() == $type::bTypeObject) {
+                    // 其他对象引用
+                    $parameter->setName($type->getName());
+                    $parameter->setDescription($type->getDoc());
+                    $parameter->setSchema([
+                        "\$ref" => "#/definitions/{$type->getType()}"
+                    ]);
+                }
+                $parameter->setIn("query");
+                $got[] = $parameter;
+            }
+            return $got;
         } elseif ($method == 'post') {
+            $parameter = new Parameter();
+            // 其他对象引用
+            $parameter->setName($message->getName());
+            $parameter->setDescription($message->getDoc());
+            $parameter->setSchema([
+                "\$ref" => "#/definitions/{$message->getName()}"
+            ]);
             $parameter->setIn("body");
+            return [$parameter];
         }
+        return [];
+    }
 
-        return $parameter;
+    // proto自带类型 转 swagger
+    public static function toSwaggerType(string $source): string
+    {
+        if (in_array($source, ['string', 'bytes'])) {
+            $typeIn = 'string';
+        } elseif (in_array($source, ['bool'])) {
+            $typeIn = 'boolean';
+        } else {
+            $typeIn = 'integer';
+        }
+        return $typeIn;
     }
 }

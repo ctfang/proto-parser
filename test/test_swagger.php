@@ -45,14 +45,14 @@ foreach ($services->getArray() as $serviceName => $service) {
                 $path->setSummary(explode("//", $rpc->getDoc())[0]);
                 $path->setMethod($method);
                 $path->setKey($optionValue);
-                $path->setDescription($rpc->getDoc());
+                $path->setDescription(str_replace("//","\n\n",$rpc->getDoc()));
                 $path->setTags($services->cacheTag);
 
                 $parameters = [];
                 $message    = $rpc->getParameter();
                 $message    = $parser->getMessageWithAll($message);
                 if ($message) {
-                    $parameters[] = ProtoMessageToSwagger::toParameter($message,$method);
+                    $parameters = ProtoMessageToSwagger::toParameter($message,$method);
                 }
                 $path->setParameters($parameters);
 

@@ -27,7 +27,7 @@ class Path
     /**
      * @param  mixed  $method
      */
-    public function setMethod($method): void
+    public function setMethod($method, bool $setConsumes = false): void
     {
         $this->method = $method;
     }
@@ -276,7 +276,7 @@ class Path
 //            echo $k, "\n";
 //        }
 
-        return [
+        $got = [
             "tags"        => $this->tags,
             "summary"     => $this->summary,
             "description" => $this->description,
@@ -287,5 +287,11 @@ class Path
             "responses"   => $this->getResponses(),
             "security"    => $this->security,
         ];
+        foreach ($got as $i=>$value){
+            if ($value===null) {
+                unset($got[$i]);
+            }
+        }
+        return $got;
     }
 }

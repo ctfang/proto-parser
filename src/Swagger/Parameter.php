@@ -146,7 +146,7 @@ class Parameter
 
     public function toArray(): array
     {
-        return [
+        $got = [
             "name"        => $this->name,
             "in"          => $this->in,
             "description" => $this->description,
@@ -155,5 +155,11 @@ class Parameter
             "format"      => $this->format,
             "schema"      => $this->schema,
         ];
+        foreach ($got as $i=>$value){
+            if ($value===null) {
+                unset($got[$i]);
+            }
+        }
+        return $got;
     }
 }
