@@ -10,8 +10,5 @@
             "name": "ctfang",
             "email": "2206582181@qq.com"
         }
-    ],
-    "require": {
-        "symfony/console": "^5.3"
-    }
+    ]
 }

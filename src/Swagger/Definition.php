@@ -21,7 +21,7 @@ class Definition
      * 格式化
      * @var string int32 date-time
      */
-    protected $format = 'object';
+    protected $format;
 
     /**
      * 对象时候的属性
@@ -33,15 +33,33 @@ class Definition
      * 数组类型时候
      * @var Definition[]
      */
-    protected $items = [];
+    protected $items;
 
     // 枚举定义
-    protected $enum = [];
+    protected $enum;
 
     /**
      * @var array {"wrapped": true,"name": "Pet"}
      */
     protected $xml;
+
+    protected $description;
+
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param  mixed  $description
+     */
+    public function setDescription($description): void
+    {
+        $this->description = $description;
+    }
 
     /**
      * @return mixed
@@ -88,7 +106,11 @@ class Definition
      */
     public function setFormat(string $format): void
     {
-        $this->format = $format;
+        if ($format) {
+            $this->format = $format;
+        } else {
+            $this->format = null;
+        }
     }
 
     /**
@@ -110,7 +132,7 @@ class Definition
     /**
      * @return Definition[]
      */
-    public function getItems(): array
+    public function getItems(): ?array
     {
         return $this->items;
     }
@@ -120,7 +142,7 @@ class Definition
      */
     public function setItems(array $items): void
     {
-        $this->items = $items;
+        $this->items = $items ?: null;
     }
 
     /**
@@ -157,15 +179,21 @@ class Definition
 
     public function toArray()
     {
-        return [
-            "type"       => $this->type,
-            "format"     => $this->format,
-            "properties" => $this->properties,
-            "items"      => $this->items,
-            "enum"       => $this->enum,
-            "xml"        => [
-                "name" => $this->name
-            ],
+        $got = [
+            "type"        => $this->type,
+            "format"      => $this->format,
+            "properties"  => $this->properties,
+            "description" => trim($this->description,"//"),
+            "items"       => $this->items,
+            "enum"        => $this->enum,
+            "xml"         => $this->xml,
         ];
+
+        foreach ($got as $i => $value) {
+            if ($value === null) {
+                unset($got[$i]);
+            }
+        }
+        return $got;
     }
 }

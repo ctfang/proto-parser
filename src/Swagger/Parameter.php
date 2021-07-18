@@ -31,6 +31,24 @@ class Parameter
      * @var array
      */
     protected $schema;
+    protected $items;
+    protected $default;
+
+    /**
+     * @return mixed
+     */
+    public function getDefault()
+    {
+        return $this->default;
+    }
+
+    /**
+     * @param  mixed  $default
+     */
+    public function setDefault($default): void
+    {
+        $this->default = $default;
+    }
 
     /**
      * @return mixed
@@ -144,6 +162,22 @@ class Parameter
         $this->schema = $schema;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getItems()
+    {
+        return $this->items;
+    }
+
+    /**
+     * @param  mixed  $items
+     */
+    public function setItems($items): void
+    {
+        $this->items = $items;
+    }
+
     public function toArray(): array
     {
         $got = [
@@ -154,9 +188,11 @@ class Parameter
             "type"        => $this->type,
             "format"      => $this->format,
             "schema"      => $this->schema,
+            "items"       => $this->items,
+            "default"     => $this->default,
         ];
-        foreach ($got as $i=>$value){
-            if ($value===null) {
+        foreach ($got as $i => $value) {
+            if ($value === null) {
                 unset($got[$i]);
             }
         }

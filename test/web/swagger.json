@@ -216,7 +216,6 @@
     "definitions": {
         "HomeRequest": {
             "type": "object",
-            "format": "object",
             "properties": {
                 "user_id": {
                     "type": "integer",
@@ -234,15 +233,10 @@
                     "description": ""
                 }
             },
-            "items": [],
-            "enum": [],
-            "xml": {
-                "name": "HomeRequest"
-            }
+            "description": ""
         },
         "HomeResponse": {
             "type": "object",
-            "format": "object",
             "properties": {
                 "version": {
                     "type": "string",
@@ -255,15 +249,10 @@
                     "description": ""
                 }
             },
-            "items": [],
-            "enum": [],
-            "xml": {
-                "name": "HomeResponse"
-            }
+            "description": ""
         },
         "OssRequest": {
             "type": "object",
-            "format": "object",
             "properties": {
                 "token": {
                     "type": "string",
@@ -271,15 +260,10 @@
                     "description": ""
                 }
             },
-            "items": [],
-            "enum": [],
-            "xml": {
-                "name": "OssRequest"
-            }
+            "description": ""
         },
         "OssResponse": {
             "type": "object",
-            "format": "object",
             "properties": {
                 "StatusCode": {
                     "type": "integer",
@@ -307,21 +291,12 @@
                     "description": ""
                 }
             },
-            "items": [],
-            "enum": [],
-            "xml": {
-                "name": "OssResponse"
-            }
+            "description": ""
         },
         "Null": {
             "type": "object",
-            "format": "object",
             "properties": [],
-            "items": [],
-            "enum": [],
-            "xml": {
-                "name": "Null"
-            }
+            "description": ""
         }
     },
     "externalDocs": {

@@ -10,6 +10,23 @@ use ProtoParser\StringHelp;
 class Enum
 {
     protected $values = [];
+    protected $doc;
+
+    /**
+     * @return string
+     */
+    public function getDoc()
+    {
+        return $this->doc;
+    }
+
+    /**
+     * @param  mixed  $doc
+     */
+    public function setDoc($doc): void
+    {
+        $this->doc = $doc;
+    }
 
     public function __construct(array $source)
     {
@@ -58,5 +75,21 @@ class Enum
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @return array
+     */
+    public function getValues(): array
+    {
+        return $this->values;
+    }
+
+    /**
+     * @param  array  $values
+     */
+    public function setValues(array $values): void
+    {
+        $this->values = $values;
     }
 }

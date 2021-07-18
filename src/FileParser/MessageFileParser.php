@@ -9,7 +9,7 @@ use ProtoParser\FileParser\Message\Type;
 
 class MessageFileParser extends Base
 {
-    protected $value;
+    protected $value = [];
 
     public function parser(array $arr)
     {

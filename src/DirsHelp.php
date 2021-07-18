@@ -24,7 +24,7 @@ class DirsHelp
                     continue;
                 } else {
                     if (is_dir($sub_path)) {
-                        $arr = array_merge($arr, self::getDirs($sub_path));
+                        $arr = array_merge($arr, self::getDirs($sub_path, $ext));
                     } else {
                         //.$path 可以省略，直接输出文件名
                         if ($ext === null || strpos($value, $ext) != false) {

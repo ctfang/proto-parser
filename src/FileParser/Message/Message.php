@@ -13,6 +13,7 @@ class Message
 {
     protected $values = [];
     protected $doc = '';
+    protected $name = '';
     protected $option = [];
 
     public function __construct(array $source)
@@ -44,6 +45,13 @@ class Message
                     $doc            = '';
                     break;
                 case "message":
+                    $this->values[] = new Message([
+                        'code' => StringHelp::onStopWithSymmetricStr($array, $offset),
+                        'doc'  => $doc,
+                    ]);
+                    $doc            = '';
+                    break;
+                case "oneof":
                     $this->values[] = new Message([
                         'code' => StringHelp::onStopWithSymmetricStr($array, $offset),
                         'doc'  => $doc,
