@@ -135,7 +135,9 @@ class Path
      */
     public function setTags(array $tags): void
     {
-        $this->tags = $tags;
+        foreach ($tags as $tag=>$path) {
+            $this->tags[$tag] = $path;
+        }
     }
 
     /**
