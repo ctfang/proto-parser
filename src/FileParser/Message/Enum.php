@@ -10,6 +10,24 @@ use ProtoParser\StringHelp;
 class Enum
 {
     protected $values = [];
+    protected $doc;
+    protected $name;
+
+    /**
+     * @return string
+     */
+    public function getDoc()
+    {
+        return $this->doc;
+    }
+
+    /**
+     * @param  mixed  $doc
+     */
+    public function setDoc($doc): void
+    {
+        $this->doc = $doc;
+    }
 
     public function __construct(array $source)
     {
@@ -37,16 +55,15 @@ class Enum
                     continue;
                 }
             }
-
             if (isset($str[0]) && $str[0] == '/') {
                 $doc = $str;
-            } elseif ($str != PHP_EOL) {
+            } elseif (!in_array($str,["\t",PHP_EOL," "])) {
                 $arr[] = $str;
                 if ($str == ";") {
                     $this->values[] = [
                         'doc'  => $doc,
                         'name' => $arr[0],
-                        'num'  => $arr[3],
+                        'num'  => $arr[2],
                     ];
                     $doc            = '';
                     $arr            = [];
@@ -55,8 +72,29 @@ class Enum
         }
     }
 
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @return array
+     */
+    public function getValues(): array
+    {
+        return $this->values;
+    }
+
+    /**
+     * @param  array  $values
+     */
+    public function setValues(array $values): void
+    {
+        $this->values = $values;
     }
 }

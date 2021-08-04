@@ -14,15 +14,15 @@ class Type
     // 数组
     const bTypeArray = 2;
     // 任意一个
-    const bTypeOnef = 3;
+    const bTypeOnef = 4;
     // 依赖其他Message
-    const bTypeObject = 4;
+    const bTypeObject = 8;
 
     /**
      * 特殊结构
      * @var int
      */
-    protected $bType;
+    protected $bType = 0;
 
     protected $type;
 
@@ -45,11 +45,12 @@ class Type
         for (; $offset < count($array); $offset++) {
             $str    = $array[$offset];
             $data[] = $str;
+
             if ($init == 0) {
                 $this->type = $str;
                 switch ($str) {
                     case "repeated":
-                        $this->bType = self::bTypeArray;
+                        $this->bType += self::bTypeArray;
                         $init        = -2;
                         break;
                     case "oneof":
@@ -57,12 +58,14 @@ class Type
                         $init        = -2;
                         break;
                     default:
-                        if (in_array($str, ProtoType::ALl)) {
+                        if ($this->bType==0 && in_array($str, ProtoType::ALl)) {
                             $this->type  = $str;
                             $this->bType = self::Base;
                         } else {
-                            $this->type  = $str;
-                            $this->bType = self::bTypeObject;
+                            if ($str) {
+                                $this->type  = $str;
+                                $this->bType += self::bTypeObject;
+                            }
                         }
                         break;
                 }

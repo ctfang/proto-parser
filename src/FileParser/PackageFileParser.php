@@ -16,4 +16,12 @@ class PackageFileParser extends Base
         $than->value = trim($arr[2], '"');
         return $than;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
 }

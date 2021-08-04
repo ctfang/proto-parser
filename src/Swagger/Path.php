@@ -123,7 +123,11 @@ class Path
      */
     public function getTags(): array
     {
-        return $this->tags;
+        $got = [];
+        foreach ($this->tags as $tag=>$path) {
+            $got[] = $tag;
+        }
+        return $got;
     }
 
     /**
@@ -240,7 +244,7 @@ class Path
     public function getResponses(): array
     {
         $got = [];
-        foreach ($this->responses as $status=>$response) {
+        foreach ($this->responses as $status => $response) {
             $got[$status] = $response->toArray();
         }
         return $got;
@@ -277,7 +281,7 @@ class Path
 //        }
 
         $got = [
-            "tags"        => $this->tags,
+            "tags"        => $this->getTags(),
             "summary"     => $this->summary,
             "description" => $this->description,
             "operationId" => $this->operationId,
@@ -287,8 +291,8 @@ class Path
             "responses"   => $this->getResponses(),
             "security"    => $this->security,
         ];
-        foreach ($got as $i=>$value){
-            if ($value===null) {
+        foreach ($got as $i => $value) {
+            if ($value === null) {
                 unset($got[$i]);
             }
         }

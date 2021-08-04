@@ -26,4 +26,9 @@ class EnumFileParser extends Base
     {
         return $this->value;
     }
+
+    public function getValues(): array
+    {
+        return $this->value;
+    }
 }

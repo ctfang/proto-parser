@@ -13,7 +13,7 @@ class ProtoToArray
     const onDoc = 'onDoc';
 
     const Separator = [
-        "\n", ";", ",", "(", ")", "{", "}", " ", "=", ":"
+        "\n", "\t", ";", ",", "(", ")", "{", "}", " ", "=", ":"
     ];
 
     private $array = [];

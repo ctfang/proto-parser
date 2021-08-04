@@ -13,6 +13,7 @@ class Message
 {
     protected $values = [];
     protected $doc = '';
+    protected $name = '';
     protected $option = [];
 
     public function __construct(array $source)
@@ -50,6 +51,13 @@ class Message
                     ]);
                     $doc            = '';
                     break;
+                case "oneof":
+                    $this->values[] = new Message([
+                        'code' => StringHelp::onStopWithSymmetricStr($array, $offset),
+                        'doc'  => $doc,
+                    ]);
+                    $doc            = '';
+                    break;
                 default:
                     // 类型
                     if (isset($str[0]) && $str[0] == '/') {
@@ -64,6 +72,12 @@ class Message
                     break;
             }
         }
+    }
+
+
+    public function setName($name)
+    {
+        $this->name = $name;
     }
 
     public function getName(): string

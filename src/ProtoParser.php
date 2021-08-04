@@ -18,6 +18,7 @@ class ProtoParser
 {
     private static $parserObject = [];
 
+    public $file;
     protected $syntax;
     protected $package;
     protected $import;
@@ -30,7 +31,7 @@ class ProtoParser
     /**
      * @var EnumFileParser
      */
-    protected $enum;
+    protected $enum = [];
 
     public function __construct()
     {
@@ -50,19 +51,20 @@ class ProtoParser
      */
     protected static $allProto = [];
 
-    public function parser(ProtoToArray $protoToArray): self
+    public function parser(ProtoToArray $protoToArray, string $file = ''): self
     {
-        $self = clone $this;
+        $self     = clone $this;
         $fileInfo = $this->parserArrayToFileInfo($protoToArray);
 
         foreach ($fileInfo as $name => $item) {
-            $parser = self::$parserObject[$name];
+            $parser = clone self::$parserObject[$name];
 
             if ($parser instanceof Base) {
                 $self->{$name} = $parser->parser($item);
             }
         }
-        self::$allProto[] = $self;
+        $self->file = $file;
+        self::$allProto[$file] = $self;
         return $self;
     }
 
@@ -180,7 +182,7 @@ class ProtoParser
     }
 
     /**
-     * @return mixed
+     * @return PackageFileParser
      */
     public function getPackage()
     {
@@ -250,10 +252,14 @@ class ProtoParser
     {
         if (!$name) {
             return $this->message;
-        }else{
+        } else if ($this->message) {
             $all = $this->message->get();
-            return $all[$name]??null;
+            if (!$all) {
+                return [];
+            }
+            return $all[$name] ?? null;
         }
+        return [];
     }
 
     /**
@@ -265,7 +271,7 @@ class ProtoParser
     }
 
     /**
-     * @return mixed
+     * @return EnumFileParser[]
      */
     public function getEnum()
     {
@@ -287,8 +293,8 @@ class ProtoParser
      */
     public function getMessageWithAll(string $name = '')
     {
-        if ($name){
-            foreach (self::$allProto as $proto){
+        if ($name) {
+            foreach (self::$allProto as $proto) {
                 $message = $proto->getMessage($name);
 
                 if ($message) {
@@ -296,16 +302,39 @@ class ProtoParser
                 }
             }
             return null;
-        }else{
+        } else {
             $got = [];
-            foreach (self::$allProto as $proto){
+            foreach (self::$allProto as $proto) {
                 $messages = $proto->getMessage($name);
 
-                foreach ($messages->getValues() as $message) {
-                    $got[] = $message;
+                if ($messages){
+                    foreach ($messages->getValues() as $message) {
+                        $got[] = [$proto->getPackage()->getValue(),$message];
+                    }
                 }
             }
             return $got;
         }
+    }
+
+
+    public function getEnumWithAll()
+    {
+        $got = [];
+        foreach (self::$allProto as $proto) {
+            $messages = $proto->getEnum();
+
+            if ($messages){
+                foreach ($messages->getValues() as $message) {
+                    $got[] = [$proto->getPackage()->getValue(),$message];
+                }
+            }
+        }
+        return $got;
+    }
+
+    public function getAllProto(): array
+    {
+        return self::$allProto;
     }
 }
