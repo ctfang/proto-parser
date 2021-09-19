@@ -76,17 +76,12 @@ class StringHelp
         $stop = $start;
         for ($i = 0; $i < strlen($str); $i++) {
             $temp = $str[$i];
-            switch ($temp) {
-                case $begin:
-                    $count++;
-                    if (!$firstHas) {
-                        $start    = $i;
-                        $firstHas = true;
-                    }
-                    break;
-                case $end:
-                    $count--;
-                    break;
+            if ($temp == $begin && !$firstHas) {
+                $count++;
+                $start    = $i;
+                $firstHas = true;
+            } elseif ($temp == $end) {
+                $count--;
             }
             if ($firstHas && $count <= 0) {
                 $stop = $i;
