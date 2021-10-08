@@ -27,7 +27,7 @@ class DirsHelp
                         $arr = array_merge($arr, self::getDirs($sub_path, $ext));
                     } else {
                         //.$path 可以省略，直接输出文件名
-                        if ($ext === null || strpos($value, $ext) != false) {
+                        if ($ext === null || pathinfo($value, PATHINFO_EXTENSION) == $ext) {
                             $arr[] = $path.'/'.$value;
                         }
                     }
