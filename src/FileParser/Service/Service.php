@@ -73,13 +73,25 @@ class Service
     {
         $array = StringHelp::onStopWithSymmetricStr($source, $offset);
         $array = array_values($array);
-        $value = [
-            'name'   => $array[2],
-            'input'  => $array[4],
-            'return' => $array[8],
-        ];
+
+        $on = 'name';
+        for ($offset2 = 1; $offset2 < count($array); $offset2++) {
+            $str = $array[$offset2];
+            if (!in_array($str, ["", " ", "(", ")", "returns"])) {
+                if ($on == 'name') {
+                    $value['name'] = $str;
+                    $on = 'input';
+                } elseif ($on == 'input') {
+                    $value['input'] = $str;
+                    $on = 'return';
+                } elseif ($on == 'return') {
+                    $value['return'] = $str;
+                    break;
+                }
+            }
+        }
         $key   = '';
-        for ($offset2 = 10; $offset2 < count($array); $offset2++) {
+        for ($offset2; $offset2 < count($array); $offset2++) {
             $str = $array[$offset2];
             if ($str == 'option') {
                 list($key, $value2) = $this->parserOption($array, $offset2);
