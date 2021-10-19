@@ -11,6 +11,7 @@ class ProtoToArray
 {
     const onNew = 'onNew';
     const onDoc = 'onDoc';
+    const onStr = 'onStr';
 
     const Separator = [
         "\n", "\t", ";", ",", "(", ")", "{", "}", " ", "=", ":"
@@ -35,6 +36,9 @@ class ProtoToArray
                         // 进入注释
                         $word    .= $char;
                         $onState = self::onDoc;
+                    } elseif ($char == '"') {
+                        $word    .= $char;
+                        $onState = self::onStr;
                     } elseif (in_array($char, self::Separator)) {
                         // 遇到分隔符号
                         if ($word!="") {
@@ -53,6 +57,17 @@ class ProtoToArray
                 case self::onDoc:
                     // 解析注释当中
                     if ($char == PHP_EOL) {
+                        $this->array[] = trim($word);
+                        $this->array[] = $char;
+                        $word          = '';
+                        $onState       = self::onNew;
+                    } else {
+                        $word .= $char;
+                    }
+                    break;
+                case self::onStr:
+                    // 解析注释当中
+                    if ($char == '"') {
                         $this->array[] = trim($word);
                         $this->array[] = $char;
                         $word          = '';
