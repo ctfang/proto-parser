@@ -62,7 +62,7 @@ class Message
                     // 类型
                     if (isset($str[0]) && $str[0] == '/') {
                         // 注释
-                        $doc = $str;
+                        $doc .= $str;
                     } else {
                         if (!in_array($str, ProtoToArray::Separator)) {
                             $this->values[] = new Type($array, $offset, $doc);
