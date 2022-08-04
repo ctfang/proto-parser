@@ -229,7 +229,11 @@ class Swagger
     {
         $got = [];
         foreach ($this->definitions as $key => $paths) {
-            $got[$key] = $paths->toArray();
+            if (!is_array($paths)) {
+                $got[$key] = $paths->toArray();
+            } else {
+                $got[$key] = $paths;
+            }
         }
         return $got;
     }
